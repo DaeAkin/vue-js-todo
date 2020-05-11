@@ -15,7 +15,7 @@ v-bind: 의 축약형은 : 이다.
 
 
 ```
-v-on:click 의 축약형은 @ 이다.
+v-on:click 의 축약형은 @:click 이다.
 ```
 
 
@@ -73,3 +73,76 @@ vm.userProfile = Object.assign({}, vm.userProfile, {
   favoriteColor: 'Vue Green'
 })
 ```
+
+
+
+```html
+<div id="counter-event-example">
+  <p>{{ total }}</p>
+  <button-counter v-on:increment="incrementTotal"></button-counter>
+  <button-counter v-on:increment="incrementTotal"></button-counter>
+</div>
+```
+
+```js
+Vue.component('button-counter', {
+  template: '<button v-on:click="incrementCounter">{{ counter }}</button>',
+  data: function () {
+    return {
+      counter: 0
+    }
+  },
+  methods: {
+    incrementCounter: function () {
+      this.counter += 1
+      this.$emit('increment')
+    }
+  },
+})
+
+new Vue({
+  el: '#counter-event-example',
+  data: {
+    total: 0
+  },
+  methods: {
+    incrementTotal: function () {
+      this.total += 1
+    }
+  }
+})
+```
+
+여기서 `this.$emit`이 increment 이벤트를 보고 있는 것이다. increment 이벤트가 발생하면 incrementTotal 함수를 호출한다. 
+
+파일이 두개 있는 것임.
+
+## 동적 Props 사용
+
+```html
+<div>
+  <input v-model="parentMsg">
+  <br>
+  <child v-bind:my-message="parentMsg"></child>
+</div>
+```
+
+
+
+
+
+# TODO APP
+
+
+
+## WebPack
+
+?? JS 파일들의 모듈화?
+
+
+
+
+
+## 참고자료 
+
+https://www.youtube.com/watch?v=A5S23KS_-bU
