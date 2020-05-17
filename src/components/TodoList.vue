@@ -26,7 +26,7 @@
         </div>
 
         <div>
-          Clear complated
+          <button> Clear complated</button>
         </div>
       </div>
   </div>
@@ -69,9 +69,9 @@ export default {
       if(this.filter == 'all'){
         return this.todos
       } else if (this.filter == 'active') {
-        return this.todo.filter(todo => !todo.completed)
+        return this.todos.filter(todo => !todo.completed)
       } else if (this.filter == 'completed') {
-        return this.todo.filter(todo => todo.completed)
+        return this.todos.filter(todo => todo.completed)
       }
       return this.todos;
     }
