@@ -26,7 +26,9 @@
         </div>
 
         <div>
-          <button> Clear complated</button>
+          <transition name="fade">
+          <button v-if="showClearCompletedButton" @click="clearCompleted"> Clear complated</button>
+          </transition>
         </div>
       </div>
   </div>
@@ -74,6 +76,9 @@ export default {
         return this.todos.filter(todo => todo.completed)
       }
       return this.todos;
+    },
+    showClearCompletedButton() {
+      return this.todos.filter(todo => todo.completed).length > 0
     }
   },
 
@@ -118,6 +123,9 @@ export default {
     },
     checkAllTodos() {
       this.todos.forEach((todo) => todo.completed = event.target.checked)
+    },
+    clearCompleted() {
+      this.todos = this.todos.filter(todo => !todo.completed)
     }
   }
 }
@@ -206,5 +214,13 @@ export default {
     background: lightgreen;
   }
   
+  // CSS Transitions
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .2s;
+  }
+
+  .fade-enter, .fade-leave-to { 
+    opacity: 0;
+  }
   
 </style>
