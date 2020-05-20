@@ -31,8 +31,7 @@
 
         <div>
           <transition name="fade">
-          <button v-if="showClearCompletedButton"
-          @click="clearCompleted"> Clear complated</button>
+          <button v-if="showClearCompletedButton" @click="clearCompleted"> 완료된 것 지우기</button>
           </transition>
         </div>
       </div>
