@@ -2,6 +2,8 @@
   <div>
       <input type="text" class="todo-input" placeholder="뭘 해야 할까?" v-model="newTodo"
       @keyup.enter="addTodo">
+      <transition-group name="fade" enter-active-class="animated fadeInUp"
+       leave-active-class="animated fadeOutDown">
       <div  v-for="(todo, index) in todosFiltered" v-bind:key="todo.id" class="todo-item">
         <div class="todo-item-left">
           <input type="checkbox" v-model="todo.completed" >
@@ -13,11 +15,13 @@
           &times;
         </div>
       </div>
+      </transition-group>
       <div class="extra-container">
         <div><label><input type="checkbox" :checked="!anyRemaining"
         @change="checkAllTodos">전부 선택</label></div>
         <div>{{remaining}} 개가 남음 </div>
       </div>
+      
       <div class="extra-container">
         <div>
           <button :class="{ active : filter == 'all'}" @click="filter = 'all'">All</button>
@@ -26,15 +30,23 @@
         </div>
 
         <div>
-          <button> Clear complated</button>
+          <transition name="fade">
+          <button v-if="showClearCompletedButton"
+          @click="clearCompleted"> Clear complated</button>
+          </transition>
         </div>
       </div>
   </div>
 </template>
 
 <script>
+import TodoItem from './TodoItem'
+
 export default {
   name: 'todo-list',
+  components : {
+    TodoItem,
+  },
   data () {
     return {
       newTodo : '',
@@ -74,6 +86,9 @@ export default {
         return this.todos.filter(todo => todo.completed)
       }
       return this.todos;
+    },
+    showClearCompletedButton() {
+      return this.todos.filter(todo => todo.completed).length > 0
     }
   },
 
@@ -118,6 +133,9 @@ export default {
     },
     checkAllTodos() {
       this.todos.forEach((todo) => todo.completed = event.target.checked)
+    },
+    clearCompleted() {
+      this.todos = this.todos.filter(todo => !todo.completed)
     }
   }
 }
@@ -125,6 +143,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css");
   .todo-input {
     width: 100%;
     padding: 10px 18px;
@@ -205,6 +225,11 @@ export default {
   .active {
     background: lightgreen;
   }
-  
-  
+  .fade-enter-active, .fade-leave-active {
+    transition : opacity .2s;
+  }
+
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
 </style>
