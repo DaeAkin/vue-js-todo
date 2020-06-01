@@ -5,7 +5,7 @@
       <transition-group name="fade" enter-active-class="animated fadeInUp"
        leave-active-class="animated fadeOutDown">
       <todo-item v-for="(todo, index) in todosFiltered" 
-      v-bind:key="todo.id" :todo="todo" :index="index">
+      v-bind:key="todo.id" :todo="todo" :index="index" @removedTodo="removeTodo">
       </todo-item>>
       </transition-group>
       <div class="extra-container">
