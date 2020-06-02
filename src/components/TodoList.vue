@@ -5,7 +5,8 @@
       <transition-group name="fade" enter-active-class="animated fadeInUp"
        leave-active-class="animated fadeOutDown">
       <todo-item v-for="(todo, index) in todosFiltered" 
-      v-bind:key="todo.id" :todo="todo" :index="index" @removedTodo="removeTodo">
+      v-bind:key="todo.id" :todo="todo" :index="index" :checkAll="!anyRemaining"
+      @removedTodo="removeTodo" @finishedEdit="finishedEdit">
       </todo-item>>
       </transition-group>
       <div class="extra-container">
@@ -61,6 +62,7 @@ export default {
       ]
     }
   },
+  // computed는 항상 return을 해야함.
   computed : {
     remaining() {
      return this.todos.filter(todo => !todo.completed).length
@@ -90,6 +92,7 @@ export default {
       }
     }
   },
+  //method는 computed와 다르게 return이 필수가 아니다.
   methods : {
     addTodo() {
       if(this.newTodo.trim().length == 0) {
@@ -127,6 +130,9 @@ export default {
     },
     clearCompleted() {
       this.todos = this.todos.filter(todo => !todo.completed)
+    },
+    finishedEdit(data) {
+      this.todos.splice(data.index,1,data.todo)
     }
   }
 }
