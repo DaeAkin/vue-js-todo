@@ -1,7 +1,7 @@
 <template>
   <div class="todo-item">
     <div class="todo-item-left">
-      <input type="checkbox" v-model="completed" />
+      <input type="checkbox" v-model="completed" @change="doneEdit"/>
       <div
         v-if="!editing"
         @dblclick="editTodo"
@@ -34,6 +34,10 @@ export default {
     index: {
       type: Number,
       required: true
+    },
+    checkAll : {
+        type : Boolean,
+        required : true
     }
   },
   data() {
@@ -44,6 +48,17 @@ export default {
       editing: this.todo.editing,
       beforeEditCache: ""
     };
+  },
+  //watch는 props의 변경 상태를 감지한다.]
+  watch : {
+      //checkAll 의 prop을 감지
+      checkAll() { 
+          if(this.checkAll) {
+              this.completed = true
+          } else {
+              this.completed = this.todo.completed
+          }
+      }
   },
   methods: {
     removeTodo(index) {
@@ -71,7 +86,7 @@ export default {
     cancelEdit() {
       this.title = this.beforeEditCache;
       this.editing = false;
-    }
+    },
   }
 };
 </script>
