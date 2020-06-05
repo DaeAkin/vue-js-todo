@@ -3,6 +3,9 @@
 import Vue from 'vue'
 import App from './App'
 
+//이벤트 버스 생성 
+window.eventBus = new Vue()
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

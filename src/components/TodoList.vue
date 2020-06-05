@@ -6,7 +6,7 @@
        leave-active-class="animated fadeOutDown">
       <todo-item v-for="(todo, index) in todosFiltered" 
       v-bind:key="todo.id" :todo="todo" :index="index" :checkAll="!anyRemaining"
-      @removedTodo="removeTodo" @finishedEdit="finishedEdit">
+      >
       </todo-item>>
       </transition-group>
       <div class="extra-container">
@@ -62,6 +62,9 @@ export default {
       ]
     }
   },
+  create() {
+    eventBus.$on('removedTodo')
+  },
   // computed는 항상 return을 해야함.
   computed : {
     remaining() {
@@ -85,13 +88,6 @@ export default {
     }
   },
 
-  directives : {
-    focus : {
-      inserted : function(el) {
-        el.focus()
-      }
-    }
-  },
   //method는 computed와 다르게 return이 필수가 아니다.
   methods : {
     addTodo() {
@@ -107,20 +103,6 @@ export default {
 
       this.newTodo = '';
       this.idForTodo++;
-    },
-    editTodo(todo) {
-      this.beforeEditCache = todo.title
-      todo.editing = true
-    },
-    doneEdit(todo) {
-          if(this.newTodo.trim().length == 0) {
-            todo.title = this.beforeEditCache
-      }
-      todo.editing = false
-    },
-    cancelEdit(todo) {
-      todo.title = this.beforeEditCache
-      todo.editing = false
     },
     removeTodo(index) {
       this.todos.splice(index,1);

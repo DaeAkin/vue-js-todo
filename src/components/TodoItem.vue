@@ -1,7 +1,7 @@
 <template>
   <div class="todo-item">
     <div class="todo-item-left">
-      <input type="checkbox" v-model="completed" @change="doneEdit"/>
+      <input type="checkbox" v-model="completed" @change="doneEdit" />
       <div
         v-if="!editing"
         @dblclick="editTodo"
@@ -35,9 +35,9 @@ export default {
       type: Number,
       required: true
     },
-    checkAll : {
-        type : Boolean,
-        required : true
+    checkAll: {
+      type: Boolean,
+      required: true
     }
   },
   data() {
@@ -50,43 +50,54 @@ export default {
     };
   },
   //watch는 props의 변경 상태를 감지한다.]
-  watch : {
-      //checkAll 의 prop을 감지
-      checkAll() { 
-          if(this.checkAll) {
-              this.completed = true
-          } else {
-              this.completed = this.todo.completed
-          }
+  watch: {
+    //checkAll 의 prop을 감지
+    checkAll() {
+      //   if(this.checkAll) {
+      //       this.completed = true
+      //   } else {
+      //       this.completed = this.todo.completed
+      //   }
+      this.completed = this.checkAll ? true : this.todo.completed;
+    }
+  },
+  //사용자 지정 디렉티브. v-model과 v-show (기본 디렉티브)이외에도 사용자 정의 디렉티브를 등록할 수 있음.
+  directives: {
+    focus: {
+      inserted: function(el) {
+        el.focus();
       }
+    }
   },
   methods: {
     removeTodo(index) {
-      this.$emit("removedTodo", index);
+    //   this.$emit("removedTodo", index);
+      eventBus.$emit("removedTodo", index);
     },
     editTodo() {
       this.beforeEditCache = this.title;
       this.editing = true;
     },
     doneEdit() {
-      if (this.title.trim() == '') {
+      if (this.title.trim() == "") {
         this.title = this.beforeEditCache;
       }
       this.editing = false;
-      this.$emit("finishedEdit", {
-          'index' : this.index,
-          'todo' : {
-              'id' : this.id,
-              'title' : this.title,
-              'completed' : this.completed,
-              'editing' : this.editing,
-          }
-      })
+    //   this.$emit("finishedEdit", {
+        eventBus.$emit("finishedEdit", {
+        index: this.index,
+        todo: {
+          id: this.id,
+          title: this.title,
+          completed: this.completed,
+          editing: this.editing
+        }
+      });
     },
     cancelEdit() {
       this.title = this.beforeEditCache;
       this.editing = false;
-    },
+    }
   }
 };
 </script>
