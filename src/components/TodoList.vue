@@ -11,7 +11,7 @@
       </transition-group>
       <div class="extra-container">
        <todo-check-all :anyRemaining="anyRemaining"></todo-check-all>
-        <todo-item-remaining :remaining="remaining"></todo-item-remaining>
+        <todo-item-remaining ></todo-item-remaining>
       </div>
       
       <div class="extra-container">
@@ -84,23 +84,16 @@ export default {
   // computed는 항상 return을 해야함.
   computed : {
     remaining() {
-     return this.$store.state.todos.filter(todo => !todo.completed).length
+     return this.$store.getters.remaining
     },
     anyRemaining() {
-      return this.remaining != 0
+      return this.$store.getters.anyRemaining
     },
     todosFiltered() {
-      if(this.$store.state.filter == 'all'){
-        return this.$store.state.todos
-      } else if (this.$store.state.filter == 'active') {
-        return this.$store.state.todos.filter(todo => !todo.completed)
-      } else if (this.$store.state.filter == 'completed') {
-        return this.$store.state.todos.filter(todo => todo.completed)
-      }
-      return this.$store.state.todos;
+     return this.$store.getters.todosFiltered
     },
     showClearCompletedButton() {
-      return this.$store.state.todos.filter(todo => todo.completed).length > 0
+      return this.$store.getters.showClearCompletedButton
     }
   },
 
