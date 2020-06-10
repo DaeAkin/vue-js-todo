@@ -71,8 +71,9 @@ export default {
   },
   methods: {
     removeTodo(index) {
+      this.$store.state.todos.splice(index,1);
     //   this.$emit("removedTodo", index);
-      eventBus.$emit("removedTodo", index);
+      // eventBus.$emit("removedTodo", index);
     },
     editTodo() {
       this.beforeEditCache = this.title;

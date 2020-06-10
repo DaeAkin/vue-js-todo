@@ -68,14 +68,14 @@ export default {
   },
   created() {
     //이벤트 버스를 쓰면 형제들끼리 소통할 수 있음
-    eventBus.$on('removedTodo', (index) => this.removeTodo(index))
+    // eventBus.$on('removedTodo', (index) => this.removeTodo(index))
     eventBus.$on('finishedEdit', (data) => this.finishedEdit(data))
     eventBus.$on('checkAllChanged', (checked) => this.checkAllTodos(checked))
     eventBus.$on('filterChanged', (filter) => this.$store.state.filter = filter)
     eventBus.$on('clearCompletedTodos', () => this.clearCompleted())
   },
   beforeDestroy() {
-    eventBus.$off('removedTodo', (index) => this.removeTodo(index))
+    // eventBus.$off('removedTodo', (index) => this.removeTodo(index))
     eventBus.$off('finishedEdit', (data) => this.finishedEdit(data))
     eventBus.$off('checkAllChanged', (checked) => this.checkAllTodos(checked))
     eventBus.$off('filterChanged', (filter) => this.$store.state.filter = filter)
