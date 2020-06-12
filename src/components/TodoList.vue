@@ -10,7 +10,7 @@
       </todo-item>>
       </transition-group>
       <div class="extra-container">
-       <todo-check-all :anyRemaining="anyRemaining"></todo-check-all>
+       <todo-check-all></todo-check-all>
         <todo-item-remaining ></todo-item-remaining>
       </div>
       
@@ -19,7 +19,7 @@
 
         <div>
           <transition name="fade">
-          <todo-clear-completed :showClearCompletedButton="showClearCompletedButton"></todo-clear-completed>
+          <todo-clear-completed></todo-clear-completed>
           </transition>
         </div>
       </div>
@@ -69,17 +69,17 @@ export default {
   created() {
     //이벤트 버스를 쓰면 형제들끼리 소통할 수 있음
     // eventBus.$on('removedTodo', (index) => this.removeTodo(index))
-    eventBus.$on('finishedEdit', (data) => this.finishedEdit(data))
-    eventBus.$on('checkAllChanged', (checked) => this.checkAllTodos(checked))
-    eventBus.$on('filterChanged', (filter) => this.$store.state.filter = filter)
-    eventBus.$on('clearCompletedTodos', () => this.clearCompleted())
+    // eventBus.$on('finishedEdit', (data) => this.finishedEdit(data))
+    // eventBus.$on('checkAllChanged', (checked) => this.checkAllTodos(checked))
+    // eventBus.$on('filterChanged', (filter) => this.$store.state.filter = filter)
+    // eventBus.$on('clearCompletedTodos', () => this.clearCompleted())
   },
   beforeDestroy() {
     // eventBus.$off('removedTodo', (index) => this.removeTodo(index))
-    eventBus.$off('finishedEdit', (data) => this.finishedEdit(data))
-    eventBus.$off('checkAllChanged', (checked) => this.checkAllTodos(checked))
-    eventBus.$off('filterChanged', (filter) => this.$store.state.filter = filter)
-    eventBus.$off('clearCompletedTodos', () => this.clearCompleted())
+    // eventBus.$off('finishedEdit', (data) => this.finishedEdit(data))
+    // eventBus.$off('checkAllChanged', (checked) => this.checkAllTodos(checked))
+    // eventBus.$off('filterChanged', (filter) => this.$store.state.filter = filter)
+    // eventBus.$off('clearCompletedTodos', () => this.clearCompleted())
   },
   // computed는 항상 return을 해야함.
   computed : {
@@ -101,32 +101,25 @@ export default {
   methods : {
     addTodo() {
       if(this.newTodo.trim().length == 0) {
-        return
+        return;
       }
 
-      this.$store.state.todos.push({
+      this.$store.commit('addTodo', {
         id : this.idForTodo,
         title : this.newTodo,
-        completed : false
+      
       })
+
+      // this.$store.state.todos.push({
+      //   id : this.idForTodo,
+      //   title : this.newTodo,
+      //   completed : false
+      // })
 
       this.newTodo = '';
       this.idForTodo++;
     },
-    removeTodo(index) {
-      this.$store.state.todos.splice(index,1);
-    },
-    checkAllTodos() {
-      this.$store.state.todos.forEach((todo) => todo.completed = event.target.checked)
-    },
-    clearCompleted() {
-      this.$store.state.todos = this.$store.state.todos.filter(todo => !todo.completed)
-    },
-    finishedEdit(data) {
-      //      const index = this.$store.todos.findIndex(item => item.id == data.id)
-      // this.$store.state.todos.splice(index,1,data)
-      this.$store.state.todos.splice(data.index,1,data.todo)
-    }
+    
   }
 }
 </script>
