@@ -70,8 +70,9 @@ export default {
     }
   },
   methods: {
-    removeTodo(index) {
-      this.$store.state.todos.splice(index,1);
+    removeTodo(id) {
+      this.$store.dispatch('deleteTodo',id)
+      
     //   this.$emit("removedTodo", index);
       // eventBus.$emit("removedTodo", index);
     },
@@ -84,8 +85,7 @@ export default {
         this.title = this.beforeEditCache;
       }
       this.editing = false;
-      const index = this.$store.state.todos.findIndex(item => item.id == this.id);
-      this.$store.state.todos.splice(index, 1, {
+      this.$store.dispatch('updateTodo', {
           id: this.id,
           title: this.title,
           completed: this.completed,
