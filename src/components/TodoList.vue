@@ -4,8 +4,8 @@
       @keyup.enter="addTodo">
       <transition-group name="fade" enter-active-class="animated fadeInUp"
        leave-active-class="animated fadeOutDown">
-      <todo-item v-for="(todo, index) in todosFiltered" 
-      v-bind:key="todo.id" :todo="todo" :index="index" :checkAll="!anyRemaining"
+      <todo-item v-for="(todo) in todosFiltered" 
+      v-bind:key="todo.id" :todo="todo" :checkAll="!anyRemaining"
       >
       </todo-item>>
       </transition-group>
@@ -50,18 +50,18 @@ export default {
       beforeEditCache : '',
       filter : 'all',
       todos : [
-        {
-          'id' : 1,
-          'title' : 'Vue 끝내기',
-          'completed' : false,
-          'editing' : false
-        },
-                {
-          'id' : 2,
-          'title' : '우헤헤헤헤',
-          'completed' : false,
-          'editing' : false
-        },
+        // {
+        //   'id' : 1,
+        //   'title' : 'Vue 끝내기',
+        //   'completed' : false,
+        //   'editing' : false
+        // },
+        //         {
+        //   'id' : 2,
+        //   'title' : '우헤헤헤헤',
+        //   'completed' : false,
+        //   'editing' : false
+        // },
 
       ]
     }
@@ -80,6 +80,11 @@ export default {
     // eventBus.$off('checkAllChanged', (checked) => this.checkAllTodos(checked))
     // eventBus.$off('filterChanged', (filter) => this.$store.state.filter = filter)
     // eventBus.$off('clearCompletedTodos', () => this.clearCompleted())
+  },
+
+  created() {
+    this.$store.dispatch('retrieveTodos')
+
   },
   // computed는 항상 return을 해야함.
   computed : {
@@ -105,9 +110,8 @@ export default {
       }
 
       this.$store.dispatch('addTodo', {
-        id : this.idForTodo,
+        // id : this.idForTodo,
         title : this.newTodo,
-      
       })
 
       // this.$store.state.todos.push({

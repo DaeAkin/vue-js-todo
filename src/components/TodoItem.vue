@@ -19,7 +19,7 @@
         v-focus
       />
     </div>
-    <div class="remove-item" @click="removeTodo(index)">&times;</div>
+    <div class="remove-item" @click="removeTodo(todo.id)">&times;</div>
   </div>
 </template>
 
@@ -29,10 +29,6 @@ export default {
   props: {
     todo: {
       type: Object,
-      required: true
-    },
-    index: {
-      type: Number,
       required: true
     },
     checkAll: {

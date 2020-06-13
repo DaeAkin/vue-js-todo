@@ -1,24 +1,25 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import axios from 'axios'
 
 Vue.use(Vuex)
-
+axios.defaults.baseURL = "http://localhost:8080"
 export const store = new Vuex.Store({
     state : { 
         filter : 'all',
         todos : [
-            {
-              'id' : 1,
-              'title' : 'Vue 끝내기',
-              'completed' : false,
-              'editing' : false
-            },
-                    {
-              'id' : 2,
-              'title' : '우헤헤헤헤',
-              'completed' : false,
-              'editing' : false
-            },
+            // {
+            //   'id' : 1,
+            //   'title' : 'Vue 끝내기',
+            //   'completed' : false,
+            //   'editing' : false
+            // },
+            //         {
+            //   'id' : 2,
+            //   'title' : '우헤헤헤헤',
+            //   'completed' : false,
+            //   'editing' : false
+            // },
     
           ]
         
@@ -46,6 +47,7 @@ export const store = new Vuex.Store({
     },
     mutations : {
         addTodo(state,todo) {
+            console.log('pushed data :', todo)
             state.todos.push({
                 id : todo.id,
                 title : todo.title,
@@ -73,18 +75,66 @@ export const store = new Vuex.Store({
             state.filter = filter;
         },
         clearCompleted(state) {
+            axios.get('/todos/1')
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
             state.todos = state.todos.filter(todo => !todo.completed);
+        },
+        retrieveTodos(state,todos) {
+            state.todos = todos
         }
     },
+    // 밑에 애는 async를 지원하는듯. 쓰는 쪽은 dispatch를 사용 
+    //TODO : mapAction에 대해 알아보기
     actions : {
+        retrieveTodos(context) {
+            axios.get('/todos?skip=0&limit=5')
+            .then(response => {
+                context.commit('retrieveTodos',response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        },
         addTodo(context,todo) {
-            context.commit(addTodo,todo)
+            axios.post('/todos',{
+                title : todo.title,
+                completed : false,
+            })
+            .then(response => {
+                context.commit('addTodo',response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            
         },
         updateTodo(context,todo) {
-            context.commit('updateTodo',todo)
+            axios.put('/todos/' + todo.id,{
+                title : todo.title,
+                completed : todo.completed,
+            })
+            .then(response => {
+                context.commit('updateTodo',response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
         },
         deleteTodo(context,id) {
-            context.commit('deleteTodo',id)
+            axios.delete('/todos/' + id,{
+            })
+            .then(response => {
+                context.commit('deleteTodo',response.data)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        
         },
         checkAll(context,checked) {
             context.commit('checkAll',checked)
