@@ -67,7 +67,8 @@ export default {
   },
   methods: {
     removeTodo(id) {
-      this.$store.dispatch('deleteTodo',id)
+    
+      this.$store.dispatch('deleteTodo',this.id)
       
     //   this.$emit("removedTodo", index);
       // eventBus.$emit("removedTodo", index);

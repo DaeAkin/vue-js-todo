@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 Vue.use(Vuex)
-axios.defaults.baseURL = "http://localhost:8080"
+axios.defaults.baseURL = "http://kei890.iptime.org:7811"
 export const store = new Vuex.Store({
     state : { 
         filter : 'all',
@@ -65,8 +65,12 @@ export const store = new Vuex.Store({
             })
         },
         deleteTodo(state,id) {
+        
+            console.log('id :' + id)
             const index = state.todos.findIndex(item => item.id == id);
+            console.log('index :' + index)
             state.todos.splice(index,1);
+            
         },
         checkAll(state,checked) {
             state.todos.forEach((todo) => todo.completed = checked)
@@ -92,7 +96,7 @@ export const store = new Vuex.Store({
     //TODO : mapAction에 대해 알아보기
     actions : {
         retrieveTodos(context) {
-            axios.get('/todos?skip=0&limit=5')
+            axios.get('/todos?skip=0&limit=100')
             .then(response => {
                 context.commit('retrieveTodos',response.data)
             })
@@ -129,7 +133,7 @@ export const store = new Vuex.Store({
             axios.delete('/todos/' + id,{
             })
             .then(response => {
-                context.commit('deleteTodo',response.data)
+                context.commit('deleteTodo',id)
             })
             .catch(error => {
                 console.log(error)
@@ -137,13 +141,37 @@ export const store = new Vuex.Store({
         
         },
         checkAll(context,checked) {
-            context.commit('checkAll',checked)
+            axios.put('/todos/checkAll',{
+                completed : checked,
+            })
+            .then(response => {
+                context.commit('checkAll',checked)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            
         },
         updateFilter(context,filter) {
             context.commit('updateFilter',filter)
         },
         clearCompleted(context) {
-            context.commit('clearCompleted')
+            const completed = context.state.todos
+            .filter(todo => todo.completed)
+            .map(todo => todo.id)
+
+            axios.delete('/todos/deleteCompleted',{
+                data : {
+                    todos : completed
+                }
+            })
+            .then(response => {
+                context.commit('clearCompleted')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            
         }
     },
     

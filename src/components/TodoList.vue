@@ -5,8 +5,7 @@
       <transition-group name="fade" enter-active-class="animated fadeInUp"
        leave-active-class="animated fadeOutDown">
       <todo-item v-for="(todo) in todosFiltered" 
-      v-bind:key="todo.id" :todo="todo" :checkAll="!anyRemaining"
-      >
+      v-bind:key="todo.id" :todo="todo" :checkAll="!anyRemaining">
       </todo-item>>
       </transition-group>
       <div class="extra-container">
@@ -127,11 +126,10 @@ export default {
   }
 }
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
 
-  @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css");
+  @import url("https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css");
   .todo-input {
     width: 100%;
     padding: 10px 18px;
