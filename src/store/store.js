@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 Vue.use(Vuex)
-axios.defaults.baseURL = "http://kei890.iptime.org:7811"
+// axios.defaults.baseURL = "http://localhost:7811"
 export const store = new Vuex.Store({
     state : { 
         filter : 'all',
