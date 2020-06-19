@@ -96,7 +96,7 @@ export const store = new Vuex.Store({
     //TODO : mapAction에 대해 알아보기
     actions : {
         retrieveTodos(context) {
-            axios.get('/todos?skip=0&limit=100')
+            axios.get('/api/todos?skip=0&limit=100')
             .then(response => {
                 context.commit('retrieveTodos',response.data)
             })
@@ -105,7 +105,7 @@ export const store = new Vuex.Store({
             })
         },
         addTodo(context,todo) {
-            axios.post('/todos',{
+            axios.post('/api/todos',{
                 title : todo.title,
                 completed : false,
             })
@@ -118,7 +118,7 @@ export const store = new Vuex.Store({
             
         },
         updateTodo(context,todo) {
-            axios.put('/todos/' + todo.id,{
+            axios.put('/api/todos/' + todo.id,{
                 title : todo.title,
                 completed : todo.completed,
             })
@@ -130,7 +130,7 @@ export const store = new Vuex.Store({
             })
         },
         deleteTodo(context,id) {
-            axios.delete('/todos/' + id,{
+            axios.delete('/api/todos/' + id,{
             })
             .then(response => {
                 context.commit('deleteTodo',id)
@@ -141,7 +141,7 @@ export const store = new Vuex.Store({
         
         },
         checkAll(context,checked) {
-            axios.put('/todos/checkAll',{
+            axios.put('/api/todos/checkAll',{
                 completed : checked,
             })
             .then(response => {
@@ -160,7 +160,7 @@ export const store = new Vuex.Store({
             .filter(todo => todo.completed)
             .map(todo => todo.id)
 
-            axios.delete('/todos/deleteCompleted',{
+            axios.delete('/api/todos/deleteCompleted',{
                 data : {
                     todos : completed
                 }
