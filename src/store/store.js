@@ -4,7 +4,9 @@ import axios from 'axios'
 
 Vue.use(Vuex)
 // axios.defaults.baseURL = "http://localhost:7811"
+
 export const store = new Vuex.Store({
+
     state : { 
         filter : 'all',
         todos : [
@@ -95,6 +97,25 @@ export const store = new Vuex.Store({
     // 밑에 애는 async를 지원하는듯. 쓰는 쪽은 dispatch를 사용 
     //TODO : mapAction에 대해 알아보기
     actions : {
+        retrieveToken(context,credentials) {
+            const frm = new FormData()
+            frm.append('username',credentials.username)
+            frm.append('password',credentials.password)
+            frm.append('grant_type','password')
+
+            axios.post('/oauth/token', {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic Y2xpZW50aWQ6cHdk'
+                },
+            })
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        },
         retrieveTodos(context) {
             axios.get('/api/todos?skip=0&limit=100')
             .then(response => {
