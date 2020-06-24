@@ -2,7 +2,7 @@ module.exports = {
     devServer: {
       proxy : {
         '/api': {
-          target: 'http://localhost:8081',
+          target: 'http://localhost:8080',
           changeOrigin: true,
           logLevel : 'debug',
           pathRewrite: {
@@ -10,7 +10,7 @@ module.exports = {
           }
         },
         '/oauth': {
-          target: 'http://localhost:8081',
+          target: 'http://localhost:8080',
           logLevel : 'debug',
           changeOrigin: true,
           pathRewrite: {

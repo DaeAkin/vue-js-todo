@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import qs from 'qs'
+
 
 Vue.use(Vuex)
 // axios.defaults.baseURL = "http://localhost:7811"
@@ -8,6 +10,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
 
     state : { 
+        token : localStorage.getItem('access_token') || null,
         filter : 'all',
         todos : [
             // {
@@ -92,25 +95,32 @@ export const store = new Vuex.Store({
         },
         retrieveTodos(state,todos) {
             state.todos = todos
-        }
+        },
+        retrieveToken(state,token) {
+            state.token = token
+        },
     },
     // 밑에 애는 async를 지원하는듯. 쓰는 쪽은 dispatch를 사용 
     //TODO : mapAction에 대해 알아보기
     actions : {
         retrieveToken(context,credentials) {
-            const frm = new FormData()
-            frm.append('username',credentials.username)
-            frm.append('password',credentials.password)
-            frm.append('grant_type','password')
+            const data = qs.stringify({
+                username : credentials.username,
+                password : credentials.password,
+                grant_type : 'password'
+            })
 
-            axios.post('/oauth/token', {
+            const headers = {
                 headers : {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     'Authorization': 'Basic Y2xpZW50aWQ6cHdk'
-                },
-            })
+                }
+            }
+            axios.post('/oauth/token',data,headers)
             .then(response => {
-                console.log(response)
+                const token = response.data.access_token;
+                localStorage.setItem('access_token',token)
+                context.commit('retrieveToken',token)
             })
             .catch(error => {
                 console.log(error)
