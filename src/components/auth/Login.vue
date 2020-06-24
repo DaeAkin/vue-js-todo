@@ -37,8 +37,7 @@ export default {
         password: this.password,
       })
         .then(response => {
-          console.log(response)
-          // this.$router.push({ name: 'todo' })
+          this.$router.push({ name: 'todo' })
         })
     }
   }

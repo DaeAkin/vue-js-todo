@@ -104,6 +104,8 @@ export const store = new Vuex.Store({
     //TODO : mapAction에 대해 알아보기
     actions : {
         retrieveToken(context,credentials) {
+
+            return new Promise((resolve,reject) => {
             const data = qs.stringify({
                 username : credentials.username,
                 password : credentials.password,
@@ -121,11 +123,16 @@ export const store = new Vuex.Store({
                 const token = response.data.access_token;
                 localStorage.setItem('access_token',token)
                 context.commit('retrieveToken',token)
+                //부모(Login.Vue)에게 이 post 요청이 성공했는지 실패했는지 알려줌
+                resolve(response)
             })
             .catch(error => {
+                alert("아이디나 비밀번호가 틀립니다.")
                 console.log(error)
+                reject(error)
             })
-        },
+        })
+    },
         retrieveTodos(context) {
             axios.get('/api/todos?skip=0&limit=100')
             .then(response => {
