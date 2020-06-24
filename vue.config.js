@@ -1,14 +1,6 @@
 module.exports = {
     devServer: {
-      // Paths
-      assetsSubDirectory: 'static',
-      assetsPublicPath: '/',
-      proxyTable: {
-        // '**': {
-        //   target: 'http://localhost:8080',
-        //   changeOrigin: true,
-  
-        },
+      proxy : {
         '/api': {
           target: 'http://localhost:8081',
           changeOrigin: true,
@@ -17,15 +9,14 @@ module.exports = {
             '^/api': '/api'
           }
         },
-        '/oauth/token': {
+        '/oauth': {
           target: 'http://localhost:8081',
           logLevel : 'debug',
           changeOrigin: true,
           pathRewrite: {
-            '^/oauth/token': ''
+            '^/oauth': '/oauth'
           }
-  
-        // }
-      },
+        }
     }
+  }
 }

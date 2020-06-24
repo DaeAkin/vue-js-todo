@@ -25,5 +25,5 @@ new Vue({
   router : router,
   store : store,
   components: { Master },
-  template: '<Master/>'
+  render : h => h(Master),
 })
