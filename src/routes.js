@@ -2,6 +2,7 @@ import App from './App'
 import LandingPage from './components/marketing/LandingPage'
 import About from './components/marketing/About'
 import Login from './components/auth/Login'
+import Logout from './components/auth/Logout'
 import Register from './components/auth/Register'
 import TestTodosVariable from './components/marketing/TestTodosVariable'
 
@@ -36,6 +37,11 @@ const routes = [
         name : 'todos',
        component : TestTodosVariable
    },
+   {
+    path : '/logout',
+    name : 'logout',
+   component : TestTodosVariable
+},
   ]
 
   export default routes

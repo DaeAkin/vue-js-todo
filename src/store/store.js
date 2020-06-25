@@ -30,6 +30,10 @@ export const store = new Vuex.Store({
         
     },
     getters : {
+
+        loggedIn(state) {
+            return state.token !== null
+        },
         remaining(state) {
             return state.todos.filter(todo => !todo.completed).length
            },
@@ -103,6 +107,12 @@ export const store = new Vuex.Store({
     // 밑에 애는 async를 지원하는듯. 쓰는 쪽은 dispatch를 사용 
     //TODO : mapAction에 대해 알아보기
     actions : {
+        destroyToken(context) {
+            if(context.getters.loggedIn) {
+                localStorage.removeItem('access_token');
+            }
+        },
+
         retrieveToken(context,credentials) {
 
             return new Promise((resolve,reject) => {
