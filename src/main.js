@@ -19,6 +19,29 @@ const router = new VueRouter({
   mode : 'history'
 })
 
+router.beforeEach((to,from,next) => {
+  if(to.matched.some(recode => recode.meta.requiresAuth)) {
+    if(!store.getters.loggedIn) {
+      next({
+        name : 'login',
+      })
+    } else {
+      next()
+    }
+  } else if(to.matched.some(recode => recode.meta.requiresVisitor)) {
+    if(store.getters.loggedIn) {
+      next({
+        name : 'todo',
+      })
+    } else {
+      next()
+    }
+  } {
+    next()
+  }
+})
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

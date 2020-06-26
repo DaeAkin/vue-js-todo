@@ -15,7 +15,10 @@ const routes = [
     {
          path : '/todo',
          name : 'todo',
-        component : App
+        component : App,
+        meta : {
+            requiresAuth : true,
+        }
     },
     {
          path : '/about',
@@ -25,23 +28,29 @@ const routes = [
     { 
         path : '/login',
         name : 'login',
-        component : Login
+        component : Login,
+        meta : {
+            requiresVisitor : true,
+        }
     },
     {
          path : '/register',
          name : 'register',
-        component : Register
+        component : Register,
+        meta : {
+            requiresVisitor : true,
+        }
     },
     {
         path : '/todos/:id',
         name : 'todos',
        component : TestTodosVariable
    },
-   {
-    path : '/logout',
-    name : 'logout',
-   component : TestTodosVariable
-},
+    {
+        path : '/logout',
+        name : 'logout',
+        component : Logout
+        },
   ]
 
   export default routes

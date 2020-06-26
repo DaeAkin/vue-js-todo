@@ -103,13 +103,18 @@ export const store = new Vuex.Store({
         retrieveToken(state,token) {
             state.token = token
         },
+        destroyToken(state) {
+            state.token = null
+        }
     },
     // 밑에 애는 async를 지원하는듯. 쓰는 쪽은 dispatch를 사용 
     //TODO : mapAction에 대해 알아보기
     actions : {
+        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.token
         destroyToken(context) {
             if(context.getters.loggedIn) {
                 localStorage.removeItem('access_token');
+                context.commit('destroyToken');
             }
         },
 
