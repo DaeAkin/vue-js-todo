@@ -1,24 +1,19 @@
-# vue-js-todo-cli
+# Vue 공부용 Todo List
 
-## Project setup
-```
-npm install
-```
+- Router
+- Vuex
+- Auth
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
+![](./image/image1.png)
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+![](./image/image2.png)
+
+
+
+## 백엔드
+
+https://github.com/DaeAkin/vue-js-todo-backend
